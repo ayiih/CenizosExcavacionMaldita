@@ -43,33 +43,44 @@ func golpear_celda(
 	if get_cell_source_id(celda) == -1:
 		return false
 
-	var golpes_actuales: int = golpes_recibidos.get(
+	var resultado := TerrenoService.golpear_celda(
+		golpes_recibidos,
 		celda,
-		0
+		fuerza,
+		golpes_para_romper
 	)
 
-	golpes_actuales += maxi(fuerza, 1)
-	golpes_recibidos[celda] = golpes_actuales
-
-	var golpes_restantes := maxi(
-		golpes_para_romper - golpes_actuales,
-		0
+	bloque_golpeado.emit(
+		celda,
+		resultado["golpes_restantes"]
 	)
 
 	print(
 		"Golpes restantes: ",
-		golpes_restantes
+		resultado["golpes_restantes"]
 	)
 
-	if golpes_actuales >= golpes_para_romper:
+	if resultado["destruida"]:
 		_destruir_celda(celda)
 
 	return true
 
 
 func _destruir_celda(celda: Vector2i) -> void:
-	golpes_recibidos.erase(celda)
-	erase_cell(celda)
+	var posicion_global := to_global(
+		map_to_local(celda)
+	)
+
+	TerrenoService.destruir_celda(
+		self,
+		golpes_recibidos,
+		celda
+	)
+
+	bloque_destruido.emit(
+		celda,
+		posicion_global
+	)
 
 	print(
 		"Bloque destruido: ",
@@ -79,3 +90,14 @@ func _destruir_celda(celda: Vector2i) -> void:
 
 func reiniciar_dano() -> void:
 	golpes_recibidos.clear()
+
+
+## Destruye una celda directamente, sin pasar por el flujo de golpes.
+## Usado por GuardadoManager al restaurar progreso, para no re-disparar
+## la señal bloque_destruido (y por lo tanto no re-disparar el autosave).
+func aplicar_celda_destruida(celda: Vector2i) -> void:
+	TerrenoService.destruir_celda(
+		self,
+		golpes_recibidos,
+		celda
+	)

@@ -13,3 +13,6 @@ extends Node2D
 func _ready() -> void:
 	minero.configurar_terreno(terreno_destructible)
 	cenizo.global_position = punto_inicio.global_position
+
+	GameManager.registrar_nivel(cenizo, terreno_destructible)
+	GuardadoManager.iniciar_para_nivel(cenizo, terreno_destructible)
