@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://oirit3rsujqx"
-path="res://.godot/imported/Tileset.png-5eacee55e79a67ac9b14a05f08787576.ctex"
+uid="uid://pj2rvh1dlwhf"
+path="res://.godot/imported/cenizo_idle.png-b0211b7373a8ee102f9b32451bcb39c5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arte/tilesets/Tileset.png"
-dest_files=["res://.godot/imported/Tileset.png-5eacee55e79a67ac9b14a05f08787576.ctex"]
+source_file="res://arte/cenizos/cenizo_idle.png"
+dest_files=["res://.godot/imported/cenizo_idle.png-b0211b7373a8ee102f9b32451bcb39c5.ctex"]
 
 [params]
 

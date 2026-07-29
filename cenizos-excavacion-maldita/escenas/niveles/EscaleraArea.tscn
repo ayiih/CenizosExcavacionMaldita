@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bkg7vi3fkgxj0"]
+
+[ext_resource type="Script" uid="uid://dg76q2m372652" path="res://scripts/objetos/EscalereaArea.gd" id="1_alvjc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slswj"]
+size = Vector2(32, 352)
+
+[node name="EscaleraArea" type="Area2D" unique_id=1389980316]
+position = Vector2(128, 64)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_alvjc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1099766124]
+position = Vector2(16, 176)
+shape = SubResource("RectangleShape2D_slswj")
+
+[node name="CentroEscalera" type="Marker2D" parent="." unique_id=5003067]
+position = Vector2(16, 0)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://oirit3rsujqx"
-path="res://.godot/imported/Tileset.png-5eacee55e79a67ac9b14a05f08787576.ctex"
+uid="uid://dtab63h406ejc"
+path="res://.godot/imported/cenizo_jump.png-a9c6764fc86797736f480e9449b4db7d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arte/tilesets/Tileset.png"
-dest_files=["res://.godot/imported/Tileset.png-5eacee55e79a67ac9b14a05f08787576.ctex"]
+source_file="res://arte/cenizos/cenizo_jump.png"
+dest_files=["res://.godot/imported/cenizo_jump.png-a9c6764fc86797736f480e9449b4db7d.ctex"]
 
 [params]
 

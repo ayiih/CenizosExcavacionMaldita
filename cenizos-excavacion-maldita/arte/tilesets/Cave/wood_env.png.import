@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://oirit3rsujqx"
-path="res://.godot/imported/Tileset.png-5eacee55e79a67ac9b14a05f08787576.ctex"
+uid="uid://dp27couigfp5h"
+path="res://.godot/imported/wood_env.png-6f04b6cfb3870d8340aed76c2598a1d6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arte/tilesets/Tileset.png"
-dest_files=["res://.godot/imported/Tileset.png-5eacee55e79a67ac9b14a05f08787576.ctex"]
+source_file="res://arte/tilesets/Cave/wood_env.png"
+dest_files=["res://.godot/imported/wood_env.png-6f04b6cfb3870d8340aed76c2598a1d6.ctex"]
 
 [params]
 
