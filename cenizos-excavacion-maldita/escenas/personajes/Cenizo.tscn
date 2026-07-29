@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://pj2rvh1dlwhf" path="res://arte/cenizos/cenizo_idle.png" id="3_nvmq4"]
 [ext_resource type="Script" uid="uid://cgtdaa5xs3dmd" path="res://scripts/objetos/camera2d.gd" id="3_qtn2b"]
 [ext_resource type="Texture2D" uid="uid://b1ir5idxwnedo" path="res://arte/cenizos/cenizo_walk.png" id="4_3fv7e"]
+[ext_resource type="Script" uid="uid://du5ogjl7jqrmx" path="res://scripts/minero.gd" id="5_3fv7e"]
+[ext_resource type="Script" uid="uid://cjw3jynh1y8wt" path="res://scripts/puntero_pico.gd" id="5_ujwgy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uiw8e"]
 atlas = ExtResource("3_nvmq4")
@@ -285,3 +287,10 @@ position_smoothing_enabled = true
 drag_left_margin = 0.7
 drag_right_margin = 0.7
 script = ExtResource("3_qtn2b")
+
+[node name="PunteroPico" type="Node2D" parent="." unique_id=48404059]
+z_index = 100
+script = ExtResource("5_ujwgy")
+
+[node name="Minero" type="Node2D" parent="." unique_id=1887088657]
+script = ExtResource("5_3fv7e")

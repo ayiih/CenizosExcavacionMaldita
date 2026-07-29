@@ -12,9 +12,9 @@ class_name Cenizo
 @export var velocidad_escalera: float = 85.0
 @export var velocidad_centrado: float = 250.0
 
-@onready var sprite: AnimatedSprite2D = get_node_or_null(
-	"AnimatedSprite2D"
-) as AnimatedSprite2D
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+var ultima_direccion: float = 1.0
 
 var gravedad: float = 980.0
 
@@ -41,6 +41,12 @@ func _physics_process(delta: float) -> void:
 		"mover_abajo"
 	)
 
+	# Guardar la última dirección horizontal.
+	if direccion_x < 0.0:
+		ultima_direccion = -1.0
+	elif direccion_x > 0.0:
+		ultima_direccion = 1.0
+
 	_comprobar_escalera(direccion_y)
 
 	if escalando:
@@ -51,6 +57,9 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	_actualizar_animacion(direccion_x, direccion_y)
+
+	# Aplicarlo después de cambiar la animación.
+	sprite.flip_h = ultima_direccion < 0.0
 
 
 func _comprobar_escalera(direccion_y: float) -> void:
