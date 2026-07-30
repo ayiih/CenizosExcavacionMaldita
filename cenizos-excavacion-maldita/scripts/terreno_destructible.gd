@@ -11,6 +11,18 @@ signal bloque_destruido(
 	posicion_global: Vector2
 )
 
+enum TipoMaterial {
+	TIERRA,
+	PIEDRA,
+	MADERA,
+	CEMENTO,
+	ROCA_GEMAS,
+	ROCA_ACERO,
+	HUESOS,
+	ADOQUIN,
+	MARMOL,
+}
+
 @export_category("Resistencia")
 
 ## Cantidad de golpes necesarios para destruir un bloque.
@@ -19,6 +31,20 @@ var golpes_para_romper: int = 3
 
 ## Guarda los golpes que ha recibido cada celda.
 var golpes_recibidos: Dictionary = {}
+
+@export_category("Material")
+
+## Material y especialidad requerida por defecto para todas las celdas
+## de este TerrenoDestructible.
+@export var tipo_material_default: TipoMaterial = TipoMaterial.TIERRA
+@export var especialidad_requerida_default: StringName = &"excavador"
+@export var excavable_default: bool = true
+
+## Excepciones puntuales por celda. Cada valor es un Dictionary opcional
+## con las claves "tipo_material", "especialidad_requerida", "excavable"
+## y/o "resistencia", que sobrescriben el valor por defecto solo para
+## esa celda.
+@export var excepciones_material: Dictionary[Vector2i, Dictionary] = {}
 
 
 func golpear_posicion_global(
@@ -47,7 +73,7 @@ func golpear_celda(
 		golpes_recibidos,
 		celda,
 		fuerza,
-		golpes_para_romper
+		obtener_resistencia_celda(celda)
 	)
 
 	bloque_golpeado.emit(
@@ -90,6 +116,41 @@ func _destruir_celda(celda: Vector2i) -> void:
 
 func reiniciar_dano() -> void:
 	golpes_recibidos.clear()
+
+
+func obtener_tipo_material(celda: Vector2i) -> TipoMaterial:
+	var excepcion: Dictionary = excepciones_material.get(celda, {})
+	return excepcion.get("tipo_material", tipo_material_default)
+
+
+func obtener_especialidad_requerida(celda: Vector2i) -> StringName:
+	var excepcion: Dictionary = excepciones_material.get(celda, {})
+	return excepcion.get("especialidad_requerida", especialidad_requerida_default)
+
+
+func es_excavable(celda: Vector2i) -> bool:
+	var excepcion: Dictionary = excepciones_material.get(celda, {})
+	return excepcion.get("excavable", excavable_default)
+
+
+func obtener_resistencia_celda(celda: Vector2i) -> int:
+	var excepcion: Dictionary = excepciones_material.get(celda, {})
+	return excepcion.get("resistencia", golpes_para_romper)
+
+
+## Determina si una celda existe, es excavable y corresponde a la
+## especialidad indicada (ej. &"excavador").
+func es_celda_excavable(
+	celda: Vector2i,
+	especialidad_id: StringName
+) -> bool:
+	if get_cell_source_id(celda) == -1:
+		return false
+
+	return (
+		es_excavable(celda)
+		and obtener_especialidad_requerida(celda) == especialidad_id
+	)
 
 
 ## Destruye una celda directamente, sin pasar por el flujo de golpes.

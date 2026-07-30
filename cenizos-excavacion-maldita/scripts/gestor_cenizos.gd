@@ -1,0 +1,227 @@
+extends Node
+class_name GestorCenizos
+
+signal cenizo_seleccionado_cambiado(cenizo: Cenizo)
+signal direccion_armada_cambiada(direccion: Vector2i)
+
+## Nodo que contiene las instancias de Cenizo.tscn a controlar (ej. "Cenizos").
+@export var contenedor_cenizos: NodePath
+
+## TerrenoDestructible sobre el que se asignan las órdenes de excavación.
+@export var terreno_destructible_path: NodePath
+
+## Nodo CursorTrabajo (opcional) usado para mostrar la celda apuntada.
+@export var cursor_trabajo_path: NodePath
+
+## Radio (px) para seleccionar un Cenizo haciendo clic sobre él.
+@export var radio_seleccion_click: float = 18.0
+
+var lista_cenizos: Array[Cenizo] = []
+var indice_activo: int = 0
+var direccion_armada: Vector2i = Vector2i.ZERO
+
+var _terreno: TerrenoDestructible
+var _cursor: CursorTrabajo
+
+
+func _ready() -> void:
+	var contenedor := get_node_or_null(contenedor_cenizos)
+
+	if contenedor == null:
+		push_warning(
+			"GestorCenizos: no se asignó 'contenedor_cenizos'."
+		)
+		return
+
+	lista_cenizos.clear()
+
+	for hijo in contenedor.get_children():
+		if hijo is Cenizo:
+			lista_cenizos.append(hijo)
+			hijo.orden_completada.connect(_on_orden_completada)
+			hijo.orden_bloqueada.connect(_on_orden_bloqueada)
+			hijo.orden_cancelada.connect(_on_orden_cancelada)
+
+	if lista_cenizos.is_empty():
+		push_warning(
+			"GestorCenizos: no se encontraron nodos Cenizo."
+		)
+		return
+
+	_terreno = get_node_or_null(terreno_destructible_path) as TerrenoDestructible
+	_cursor = get_node_or_null(cursor_trabajo_path) as CursorTrabajo
+
+	_activar_indice(0)
+
+
+func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("cambiar_cenizo"):
+		_cambiar_al_siguiente()
+
+	if Input.is_action_just_pressed("seleccionar_excavar_abajo"):
+		_alternar_direccion(Vector2i.DOWN)
+	elif Input.is_action_just_pressed("seleccionar_excavar_izquierda"):
+		_alternar_direccion(Vector2i.LEFT)
+	elif Input.is_action_just_pressed("seleccionar_excavar_derecha"):
+		_alternar_direccion(Vector2i.RIGHT)
+
+	if Input.is_action_just_pressed("cancelar_orden"):
+		_cancelar_orden_del_activo()
+
+	_actualizar_cursor_trabajo()
+	_procesar_click_principal()
+
+
+func _cambiar_al_siguiente() -> void:
+	if lista_cenizos.size() <= 1:
+		return
+
+	var siguiente := (indice_activo + 1) % lista_cenizos.size()
+	_activar_indice(siguiente)
+
+
+func _activar_indice(indice: int) -> void:
+	if lista_cenizos.is_empty():
+		return
+
+	indice_activo = indice
+	_desarmar_direccion()
+
+	for i in lista_cenizos.size():
+		lista_cenizos[i].set_control_activo(i == indice_activo)
+
+	cenizo_seleccionado_cambiado.emit(obtener_cenizo_activo())
+
+
+func obtener_cenizo_activo() -> Cenizo:
+	if lista_cenizos.is_empty():
+		return null
+
+	return lista_cenizos[indice_activo]
+
+
+## --- Selección por clic y asignación de órdenes ------------------------
+
+
+func _procesar_click_principal() -> void:
+	if not Input.is_action_just_pressed("picar"):
+		return
+
+	if lista_cenizos.is_empty():
+		return
+
+	var mouse_global := lista_cenizos[0].get_global_mouse_position()
+
+	# 1) ¿El clic seleccionó a otro Cenizo?
+	for i in lista_cenizos.size():
+		if lista_cenizos[i].global_position.distance_to(mouse_global) <= radio_seleccion_click:
+			if i != indice_activo:
+				_activar_indice(i)
+			return
+
+	# 2) Si hay una dirección armada, el clic asigna la orden de trabajo.
+	if direccion_armada != Vector2i.ZERO:
+		_intentar_asignar_orden(mouse_global)
+
+
+func _alternar_direccion(direccion: Vector2i) -> void:
+	if direccion_armada == direccion:
+		_desarmar_direccion()
+	else:
+		_armar_direccion(direccion)
+
+
+func _armar_direccion(direccion: Vector2i) -> void:
+	direccion_armada = direccion
+
+	var activo := obtener_cenizo_activo()
+
+	if activo != null:
+		activo.modo_orden_armado = true
+
+	direccion_armada_cambiada.emit(direccion_armada)
+
+
+func _desarmar_direccion() -> void:
+	direccion_armada = Vector2i.ZERO
+
+	for cenizo in lista_cenizos:
+		cenizo.modo_orden_armado = false
+
+	if _cursor != null:
+		_cursor.ocultar()
+
+	direccion_armada_cambiada.emit(direccion_armada)
+
+
+func _cancelar_orden_del_activo() -> void:
+	var activo := obtener_cenizo_activo()
+
+	if activo != null:
+		activo.cancelar_orden()
+
+	_desarmar_direccion()
+
+
+func _intentar_asignar_orden(mouse_global: Vector2) -> void:
+	var activo := obtener_cenizo_activo()
+
+	if activo == null or _terreno == null:
+		return
+
+	var celda := _terreno.local_to_map(_terreno.to_local(mouse_global))
+
+	var orden := OrdenTrabajo.new(
+		OrdenTrabajo.TipoOrden.EXCAVAR,
+		celda,
+		direccion_armada,
+		_terreno
+	)
+
+	if activo.asignar_orden(activo.especialidad_actual, orden):
+		activo.modo_orden_armado = false
+		direccion_armada = Vector2i.ZERO
+
+		if _cursor != null:
+			_cursor.ocultar()
+
+		direccion_armada_cambiada.emit(direccion_armada)
+
+
+func _actualizar_cursor_trabajo() -> void:
+	if _cursor == null or _terreno == null:
+		return
+
+	if direccion_armada == Vector2i.ZERO or lista_cenizos.is_empty():
+		_cursor.ocultar()
+		return
+
+	var activo := obtener_cenizo_activo()
+	var mouse_global := activo.get_global_mouse_position()
+	var celda := _terreno.local_to_map(_terreno.to_local(mouse_global))
+	var centro_global := _terreno.to_global(_terreno.map_to_local(celda))
+
+	var estado := CursorTrabajo.Estado.IMPOSIBLE
+
+	if _terreno.get_cell_source_id(celda) == -1:
+		estado = CursorTrabajo.Estado.IMPOSIBLE
+	elif not _terreno.es_celda_excavable(celda, activo.especialidad_actual.id):
+		estado = CursorTrabajo.Estado.MATERIAL_INCORRECTO
+	elif activo.orden_actual != null:
+		estado = CursorTrabajo.Estado.DEBE_DESPLAZARSE
+	else:
+		estado = CursorTrabajo.Estado.VALIDO
+
+	_cursor.actualizar(centro_global, estado, direccion_armada, true)
+
+
+func _on_orden_completada(cenizo: Cenizo, _orden: OrdenTrabajo) -> void:
+	print("%s: Tarea completada." % cenizo.name)
+
+
+func _on_orden_bloqueada(cenizo: Cenizo, motivo: String) -> void:
+	print("%s: %s" % [cenizo.name, motivo])
+
+
+func _on_orden_cancelada(cenizo: Cenizo, _orden: OrdenTrabajo) -> void:
+	print("%s: Orden cancelada." % cenizo.name)

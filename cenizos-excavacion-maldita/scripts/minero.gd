@@ -14,8 +14,8 @@ var fuerza_pico: int = 1
 @export_range(0.05, 2.0, 0.05)
 var tiempo_entre_golpes: float = 0.25
 
-@onready var jugador: CharacterBody2D = (
-	get_parent() as CharacterBody2D
+@onready var jugador: Cenizo = (
+	get_parent() as Cenizo
 )
 
 @onready var puntero: PunteroPico = (
@@ -35,11 +35,34 @@ func configurar_terreno(
 	terreno_destructible = nuevo_terreno
 
 
+## Cancela cualquier objetivo pendiente y oculta el puntero.
+## Llamado por Cenizo.set_control_activo(false).
+func cancelar_picado() -> void:
+	objetivo_valido = false
+	enfriamiento_restante = 0.0
+
+	if puntero != null:
+		puntero.ocultar()
+
+
 func _process(delta: float) -> void:
 	enfriamiento_restante = maxf(
 		enfriamiento_restante - delta,
 		0.0
 	)
+
+	if (
+		jugador == null
+		or not jugador.control_activo
+		or jugador.modo_orden_armado
+		or jugador.orden_actual != null
+	):
+		objetivo_valido = false
+
+		if puntero != null:
+			puntero.ocultar()
+
+		return
 
 	_actualizar_objetivo()
 

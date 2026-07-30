@@ -266,12 +266,19 @@ size = Vector2(30, 33)
 
 [node name="Cenizo" type="CharacterBody2D" unique_id=529976580]
 collision_layer = 2
+collision_mask = 1
 script = ExtResource("1_xkjw5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1661821452]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_slswj")
 animation = &"walk"
+
+[node name="IndicadorActivo" type="Polygon2D" parent="." unique_id=700000005]
+position = Vector2(0, -26)
+z_index = 50
+color = Color(1, 0.85, 0.1, 1)
+polygon = PackedVector2Array(-6, -9, 6, -9, 0, 2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1296790314]
 position = Vector2(0, -0.5)
