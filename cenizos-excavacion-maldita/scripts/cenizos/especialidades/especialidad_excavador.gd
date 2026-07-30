@@ -31,7 +31,21 @@ func puede_realizar_orden(
 	if terreno.get_cell_source_id(orden.celda_objetivo) == -1:
 		return false
 
-	return terreno.es_celda_excavable(orden.celda_objetivo, id)
+	if not terreno.es_celda_excavable(orden.celda_objetivo, id):
+		return false
+
+	# Excavación lateral: el Cenizo mide más de 1 celda de alto, así que
+	# también necesita poder romper el bloque de arriba (si existe).
+	if orden.direccion == Vector2i.LEFT or orden.direccion == Vector2i.RIGHT:
+		var celda_superior := orden.celda_objetivo + Vector2i.UP
+
+		if (
+			terreno.get_cell_source_id(celda_superior) != -1
+			and not terreno.es_celda_excavable(celda_superior, id)
+		):
+			return false
+
+	return true
 
 
 func calcular_posicion_trabajo(
@@ -99,13 +113,26 @@ func actualizar_trabajo(
 
 		orden.celda_objetivo = _celda_bajo_cenizo(c, terreno)
 
-	if terreno.get_cell_source_id(orden.celda_objetivo) == -1:
+	var celdas := _celdas_a_excavar(orden)
+
+	var alguna_existe := false
+
+	for celda in celdas:
+		if terreno.get_cell_source_id(celda) != -1:
+			alguna_existe = true
+			break
+
+	if not alguna_existe:
 		c.finalizar_orden(OrdenTrabajo.MotivoFin.SIN_TERRENO)
 		return
 
-	if not terreno.es_celda_excavable(orden.celda_objetivo, id):
-		c.finalizar_orden(OrdenTrabajo.MotivoFin.MATERIAL_INCOMPATIBLE)
-		return
+	for celda in celdas:
+		if terreno.get_cell_source_id(celda) == -1:
+			continue
+
+		if not terreno.es_celda_excavable(celda, id):
+			c.finalizar_orden(OrdenTrabajo.MotivoFin.MATERIAL_INCOMPATIBLE)
+			return
 
 	orden.tiempo_desde_ultimo_golpe += delta
 
@@ -116,15 +143,24 @@ func actualizar_trabajo(
 
 	orden.tiempo_desde_ultimo_golpe = 0.0
 
-	if not terreno.golpear_celda(orden.celda_objetivo, danio_excavacion):
-		c.finalizar_orden(OrdenTrabajo.MotivoFin.SIN_TERRENO)
-		return
+	var quedan_bloques := false
 
-	# Todavía no se rompió del todo: seguir golpeando la misma celda.
-	if terreno.get_cell_source_id(orden.celda_objetivo) != -1:
-		return
+	for celda in celdas:
+		if terreno.get_cell_source_id(celda) == -1:
+			continue
 
-	c.notificar_bloque_destruido(orden.celda_objetivo)
+		if not terreno.golpear_celda(celda, danio_excavacion):
+			c.finalizar_orden(OrdenTrabajo.MotivoFin.SIN_TERRENO)
+			return
+
+		if terreno.get_cell_source_id(celda) != -1:
+			quedan_bloques = true
+		else:
+			c.notificar_bloque_destruido(celda)
+
+	# Todavía queda al menos un bloque (lineal o el de arriba) por romper.
+	if quedan_bloques:
+		return
 
 	# Hacia abajo: dejar que la gravedad haga aterrizar al Cenizo;
 	# la siguiente celda se recalcula arriba en el próximo golpe.
@@ -147,6 +183,16 @@ func cancelar_trabajo(
 	orden: OrdenTrabajo
 ) -> void:
 	orden.tiempo_desde_ultimo_golpe = 0.0
+
+
+## Celdas que deben excavarse en paralelo para el paso actual. En
+## horizontal se excava la celda lineal y la de arriba a la vez, ya que
+## el Cenizo mide más de 32px y no entra en un solo bloque de alto.
+func _celdas_a_excavar(orden: OrdenTrabajo) -> Array[Vector2i]:
+	if orden.direccion == Vector2i.LEFT or orden.direccion == Vector2i.RIGHT:
+		return [orden.celda_objetivo, orden.celda_objetivo + Vector2i.UP]
+
+	return [orden.celda_objetivo]
 
 
 func _celda_bajo_cenizo(

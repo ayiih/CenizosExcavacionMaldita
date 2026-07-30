@@ -1,7 +1,9 @@
 extends Node2D
 
-## Ruta hacia el personaje.
-@export var jugador_path: NodePath
+## Ruta hacia el nodo que contiene a todos los Cenizos (ej. "../Cenizos").
+## La niebla se descubre para cada uno, se mueva o no el jugador, ya que
+## pueden estar trabajando de forma autónoma en distintos lugares.
+@export var contenedor_cenizos_path: NodePath
 
 ## Tamaño total del sector cubierto por la niebla, en píxeles.
 @export var tamano_sector: Vector2i = Vector2i(1280, 4096)
@@ -23,32 +25,52 @@ extends Node2D
 @export var color_niebla: Color = Color(0.025, 0.02, 0.04, 1.0)
 
 
-@onready var jugador: Node2D = get_node(jugador_path)
 @onready var fog_sprite: Sprite2D = $FogSprite
 
 var imagen_mascara: Image
 var textura_mascara: ImageTexture
 
-var ultima_posicion_revelada := Vector2(-1000000.0, -1000000.0)
+var _cenizos: Array[Node2D] = []
+var _ultima_posicion_por_cenizo: Dictionary = {}
+
+const _SIN_REVELAR := Vector2(-1000000.0, -1000000.0)
 
 
 func _ready() -> void:
 	crear_niebla()
+	_recolectar_cenizos()
 
-	# Revela inmediatamente la posición inicial del personaje.
-	revelar_en(jugador.global_position)
+	# Revela inmediatamente la posición inicial de cada Cenizo.
+	for cenizo in _cenizos:
+		revelar_en(cenizo.global_position)
+		_ultima_posicion_por_cenizo[cenizo] = cenizo.global_position
 
 
 func _process(_delta: float) -> void:
-	if not is_instance_valid(jugador):
+	for cenizo in _cenizos:
+		if not is_instance_valid(cenizo):
+			continue
+
+		var anterior: Vector2 = _ultima_posicion_por_cenizo.get(cenizo, _SIN_REVELAR)
+		var distancia := cenizo.global_position.distance_to(anterior)
+
+		if distancia >= distancia_actualizacion:
+			revelar_en(cenizo.global_position)
+			_ultima_posicion_por_cenizo[cenizo] = cenizo.global_position
+
+
+func _recolectar_cenizos() -> void:
+	_cenizos.clear()
+
+	var contenedor := get_node_or_null(contenedor_cenizos_path)
+
+	if contenedor == null:
+		push_warning("NieblaGuerra: no se asignó 'contenedor_cenizos_path'.")
 		return
 
-	var distancia := jugador.global_position.distance_to(
-		ultima_posicion_revelada
-	)
-
-	if distancia >= distancia_actualizacion:
-		revelar_en(jugador.global_position)
+	for hijo in contenedor.get_children():
+		if hijo is Node2D:
+			_cenizos.append(hijo)
 
 
 func crear_niebla() -> void:
@@ -181,4 +203,3 @@ func revelar_en(posicion_global: Vector2) -> void:
 				)
 
 	textura_mascara.update(imagen_mascara)
-	ultima_posicion_revelada = posicion_global

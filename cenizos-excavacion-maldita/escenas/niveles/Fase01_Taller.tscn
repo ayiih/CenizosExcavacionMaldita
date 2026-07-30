@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://ct5lvp780cu5j" path="res://arte/tilesets/tilemap.png" id="8_6imv2"]
 [ext_resource type="Script" uid="uid://dirs8n5s5d4wk" path="res://scripts/gestor_cenizos.gd" id="8_gestor"]
 [ext_resource type="Script" uid="uid://t07ss2irgnl2" path="res://scripts/cenizos/cursor_trabajo.gd" id="9_cursor"]
+[ext_resource type="Script" uid="uid://hxpeh42686x1" path="res://scripts/pathfinding/sistema_pathfinding_cenizos.gd" id="10_pathfinding"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m0qm7"]
 texture = ExtResource("1_2ha8w")
@@ -1297,14 +1298,20 @@ script = ExtResource("8_gestor")
 contenedor_cenizos = NodePath("../Cenizos")
 terreno_destructible_path = NodePath("../TerrenoDestructible")
 cursor_trabajo_path = NodePath("../CursorTrabajo")
+sistema_pathfinding_path = NodePath("../SistemaPathfindingCenizos")
 
 [node name="CursorTrabajo" type="Node2D" parent="." unique_id=700000011]
 script = ExtResource("9_cursor")
 
+[node name="SistemaPathfindingCenizos" type="Node2D" parent="." unique_id=700000012]
+script = ExtResource("10_pathfinding")
+terreno_indestructible_path = NodePath("../TerrenoFijo")
+terreno_destructible_path = NodePath("../TerrenoDestructible")
+
 [node name="NieblaGuerra" type="Node2D" parent="." unique_id=660191896]
 position = Vector2(0, 352)
 script = ExtResource("7_doty3")
-jugador_path = NodePath("../Cenizos/Cenizo1")
+contenedor_cenizos_path = NodePath("../Cenizos")
 
 [node name="FogSprite" type="Sprite2D" parent="NieblaGuerra" unique_id=120214631]
 
