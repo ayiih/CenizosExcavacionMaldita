@@ -230,12 +230,19 @@ func _actualizar_cursor_excavacion_armada() -> void:
 	var centro_global := _terreno.to_global(_terreno.map_to_local(celda))
 
 	var estado := CursorTrabajo.Estado.IMPOSIBLE
+	var excavador := activo.especialidad_actual as EspecialidadExcavador
 
 	if _terreno.get_cell_source_id(celda) == -1:
 		estado = CursorTrabajo.Estado.IMPOSIBLE
 	elif not _terreno.es_celda_excavable(celda, activo.especialidad_actual.id):
 		estado = CursorTrabajo.Estado.MATERIAL_INCORRECTO
 	elif activo.orden_actual != null:
+		estado = CursorTrabajo.Estado.DEBE_DESPLAZARSE
+	elif (
+		excavador != null
+		and celda != excavador.celda_adyacente_esperada(activo, _terreno, direccion_armada)
+	):
+		# El bloque no está pegado al Cenizo: hay que acercarse primero.
 		estado = CursorTrabajo.Estado.DEBE_DESPLAZARSE
 	else:
 		estado = CursorTrabajo.Estado.VALIDO

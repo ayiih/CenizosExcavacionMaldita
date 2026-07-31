@@ -187,7 +187,7 @@ func asignar_orden(
 
 	if not especialidad.puede_realizar_orden(self, orden):
 		orden.finalizar(OrdenTrabajo.MotivoFin.MATERIAL_INCOMPATIBLE)
-		orden_bloqueada.emit(self, "No puedo excavar este material.")
+		orden_bloqueada.emit(self, "No puedo excavar ahí: debo estar pegado al bloque.")
 		return false
 
 	if orden_actual != null:
@@ -500,6 +500,22 @@ func _mover_hacia_waypoint_suelo(celda: Vector2i, delta: float) -> void:
 	var diferencia_x := destino_global.x - global_position.x
 
 	if absf(diferencia_x) < tolerancia_celda_ruta:
+		# Alineado en x: si el waypoint está más abajo (una caída),
+		# hay que esperar a que la gravedad lo baje de verdad antes de
+		# darlo por alcanzado. Antes se avanzaba con solo alinear x,
+		# lo que dejaba la ruta "adelantada" varias celdas sin que el
+		# Cenizo se hubiera movido, y terminaba excavando bloques
+		# lejanos desde su posición real (más arriba).
+		velocity.x = move_toward(velocity.x, 0.0, frenado * delta)
+
+		if not is_on_floor():
+			velocity.y += gravedad * delta
+			velocity.y = min(velocity.y, velocidad_maxima_caida)
+			return
+
+		if velocity.y > 0.0:
+			velocity.y = 0.0
+
 		_avanzar_waypoint_ruta()
 		return
 

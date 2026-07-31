@@ -17,15 +17,23 @@ func _init() -> void:
 
 
 func puede_realizar_orden(
-	_cenizo: CharacterBody2D,
+	cenizo: CharacterBody2D,
 	orden: OrdenTrabajo
 ) -> bool:
 	if orden.tipo != OrdenTrabajo.TipoOrden.EXCAVAR:
 		return false
 
 	var terreno := orden.terreno_objetivo as TerrenoDestructible
+	var c := cenizo as Cenizo
 
-	if terreno == null:
+	if terreno == null or c == null:
+		return false
+
+	# El bloque a excavar debe estar pegado al Cenizo: nunca se puede
+	# picar a distancia (ej. 2 bloques más abajo estando sobre terreno
+	# fijo). Solo es válida la celda inmediatamente adyacente en la
+	# dirección armada.
+	if orden.celda_objetivo != celda_adyacente_esperada(c, terreno, orden.direccion):
 		return false
 
 	if terreno.get_cell_source_id(orden.celda_objetivo) == -1:
@@ -46,6 +54,29 @@ func puede_realizar_orden(
 			return false
 
 	return true
+
+
+## Celda válida para excavar en la dirección dada, siempre pegada a la
+## posición actual del Cenizo (no permite picar "a lo lejos"). Público
+## para que GestorCenizos pueda usarlo al pintar el cursor de trabajo.
+func celda_adyacente_esperada(
+	cenizo: Cenizo,
+	terreno: TerrenoDestructible,
+	direccion: Vector2i
+) -> Vector2i:
+	if direccion == Vector2i.DOWN:
+		return _celda_bajo_cenizo(cenizo, terreno)
+
+	return _celda_del_cenizo(cenizo, terreno) + direccion
+
+
+## Celda (fila/columna) que ocupa actualmente el cuerpo del Cenizo,
+## es decir, la celda justo encima de la que pisa.
+func _celda_del_cenizo(
+	cenizo: Cenizo,
+	terreno: TerrenoDestructible
+) -> Vector2i:
+	return _celda_bajo_cenizo(cenizo, terreno) + Vector2i.UP
 
 
 func calcular_posicion_trabajo(
@@ -199,7 +230,11 @@ func _celda_bajo_cenizo(
 	cenizo: Cenizo,
 	terreno: TerrenoDestructible
 ) -> Vector2i:
-	var punto_pies := cenizo.global_position + Vector2(0.0, 4.0)
+	# El origen del Cenizo está aproximadamente en el centro vertical de
+	# su propia celda (colisión de ~33px centrada en el origen), así que
+	# hay que cruzar más de medio tile hacia abajo para caer realmente
+	# en la celda de sus pies, y no quedarse en la suya propia.
+	var punto_pies := cenizo.global_position + Vector2(0.0, 18.0)
 	return terreno.local_to_map(terreno.to_local(punto_pies))
 
 
