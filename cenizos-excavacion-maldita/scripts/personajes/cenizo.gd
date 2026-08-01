@@ -15,6 +15,21 @@ signal ruta_no_disponible(cenizo: Cenizo, motivo: String)
 signal destino_alcanzado(cenizo: Cenizo)
 signal orden_movimiento_cancelada(cenizo: Cenizo)
 
+@export_category("Identidad")
+
+## Nombre mostrado en el panel de HUD (ej. "Cenizo Excavador").
+@export var nombre_visible: String = "Cenizo"
+
+## Retrato mostrado en el panel de HUD.
+@export var icono_retrato: Texture2D
+
+@export_category("Estadísticas")
+@export var vida_maxima: int = 100
+@export var energia_maxima: int = 100
+
+var vida_actual: int
+var energia_actual: int
+
 @export_category("Movimiento")
 @export var velocidad: float = 120.0
 @export var aceleracion: float = 900.0
@@ -78,6 +93,9 @@ func _ready() -> void:
 		"physics/2d/default_gravity",
 		980.0
 	)
+
+	vida_actual = vida_maxima
+	energia_actual = energia_maxima
 
 
 func _physics_process(delta: float) -> void:

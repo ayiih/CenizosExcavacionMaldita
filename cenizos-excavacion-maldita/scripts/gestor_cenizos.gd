@@ -17,6 +17,10 @@ signal direccion_armada_cambiada(direccion: Vector2i)
 ## un punto" (clic sin dirección armada).
 @export var sistema_pathfinding_path: NodePath
 
+## Panel de HUD (PanelCenizo.tscn) que muestra nombre, icono, vida y
+## energía del Cenizo activo. Se actualiza al cambiar con TAB.
+@export var panel_cenizo_path: NodePath
+
 ## Radio (px) para seleccionar un Cenizo haciendo clic sobre él.
 @export var radio_seleccion_click: float = 18.0
 
@@ -27,6 +31,7 @@ var direccion_armada: Vector2i = Vector2i.ZERO
 var _terreno: TerrenoDestructible
 var _cursor: CursorTrabajo
 var _sistema_pathfinding: SistemaPathfindingCenizos
+var _panel_cenizo: PanelCenizo
 
 
 func _ready() -> void:
@@ -56,6 +61,7 @@ func _ready() -> void:
 	_terreno = get_node_or_null(terreno_destructible_path) as TerrenoDestructible
 	_cursor = get_node_or_null(cursor_trabajo_path) as CursorTrabajo
 	_sistema_pathfinding = get_node_or_null(sistema_pathfinding_path) as SistemaPathfindingCenizos
+	_panel_cenizo = get_node_or_null(panel_cenizo_path) as PanelCenizo
 
 	for cenizo in lista_cenizos:
 		cenizo.sistema_pathfinding = _sistema_pathfinding
@@ -81,6 +87,7 @@ func _process(_delta: float) -> void:
 
 	_actualizar_cursor_trabajo()
 	_procesar_click_principal()
+	_actualizar_panel_cenizo()
 
 
 func _cambiar_al_siguiente() -> void:
@@ -102,6 +109,28 @@ func _activar_indice(indice: int) -> void:
 		lista_cenizos[i].set_control_activo(i == indice_activo)
 
 	cenizo_seleccionado_cambiado.emit(obtener_cenizo_activo())
+
+
+## Sincroniza el panel de HUD con el Cenizo activo: nombre, icono,
+## vida y energía. Se llama al cambiar de Cenizo y cada frame para
+## reflejar cambios de vida/energía en tiempo real.
+func _actualizar_panel_cenizo() -> void:
+	if _panel_cenizo == null:
+		return
+
+	var activo := obtener_cenizo_activo()
+
+	if activo == null:
+		return
+
+	_panel_cenizo.configurar_cenizo(
+		activo.nombre_visible,
+		activo.icono_retrato,
+		activo.vida_actual,
+		activo.vida_maxima,
+		activo.energia_actual,
+		activo.energia_maxima
+	)
 
 
 func obtener_cenizo_activo() -> Cenizo:

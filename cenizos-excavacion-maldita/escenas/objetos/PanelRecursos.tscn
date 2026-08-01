@@ -1,0 +1,149 @@
+[gd_scene format=3 uid="uid://qiw11ipbp1fc"]
+
+[ext_resource type="Texture2D" uid="uid://dwc23uufiduil" path="res://arte/items/tornillo_export.png" id="1_tfowe"]
+[ext_resource type="Texture2D" uid="uid://bwbnmd7v7t0c8" path="res://arte/items/minerales_export.png" id="2_72was"]
+[ext_resource type="Texture2D" uid="uid://c4r0s71capklg" path="res://arte/items/chatarra_export.png" id="3_nrobw"]
+[ext_resource type="Texture2D" uid="uid://b72tu2htoyt7w" path="res://arte/items/reliquia_export.png" id="4_cnx53"]
+[ext_resource type="Texture2D" uid="uid://dvmtpdo12c5lx" path="res://arte/items/almamaldito_export_funny.png" id="5_tfowe"]
+
+[node name="PanelRecursos" type="PanelContainer" unique_id=1886104358]
+offset_right = 125.0
+offset_bottom = 318.0
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1235789329]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ListaRecursos" type="VBoxContainer" parent="MarginContainer" unique_id=686133357]
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="FilaTornillos" type="HBoxContainer" parent="MarginContainer/ListaRecursos" unique_id=1608091231]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="IconoTornillos" type="TextureRect" parent="MarginContainer/ListaRecursos/FilaTornillos" unique_id=1018723221]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_tfowe")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TornillosLabel" type="Label" parent="MarginContainer/ListaRecursos/FilaTornillos" unique_id=1060761456]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Separador01" type="HSeparator" parent="MarginContainer/ListaRecursos" unique_id=1519327854]
+visible = false
+layout_mode = 2
+
+[node name="FilaMinerales" type="HBoxContainer" parent="MarginContainer/ListaRecursos" unique_id=891902900]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="IconoMinerales" type="TextureRect" parent="MarginContainer/ListaRecursos/FilaMinerales" unique_id=1534843058]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_72was")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MineralesLabel" type="Label" parent="MarginContainer/ListaRecursos/FilaMinerales" unique_id=1070637359]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Separador02" type="HSeparator" parent="MarginContainer/ListaRecursos" unique_id=836458839]
+visible = false
+layout_mode = 2
+
+[node name="FilaChatarras" type="HBoxContainer" parent="MarginContainer/ListaRecursos" unique_id=1652104351]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="IconoChatarras" type="TextureRect" parent="MarginContainer/ListaRecursos/FilaChatarras" unique_id=137589435]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_nrobw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ChatarrasLabel" type="Label" parent="MarginContainer/ListaRecursos/FilaChatarras" unique_id=825393415]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Separador03" type="HSeparator" parent="MarginContainer/ListaRecursos" unique_id=1026985784]
+visible = false
+layout_mode = 2
+
+[node name="FilaReliquias" type="HBoxContainer" parent="MarginContainer/ListaRecursos" unique_id=1273900415]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="IconoReliquias" type="TextureRect" parent="MarginContainer/ListaRecursos/FilaReliquias" unique_id=1211328012]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_cnx53")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ReliquiasLabel" type="Label" parent="MarginContainer/ListaRecursos/FilaReliquias" unique_id=1414164980]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Separador04" type="HSeparator" parent="MarginContainer/ListaRecursos" unique_id=1589831920]
+visible = false
+layout_mode = 2
+
+[node name="FilaAlmaMaldita" type="HBoxContainer" parent="MarginContainer/ListaRecursos" unique_id=1789702729]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="IconoAlmaMaldita" type="TextureRect" parent="MarginContainer/ListaRecursos/FilaAlmaMaldita" unique_id=1073152780]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_tfowe")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AlmaMalditaLabel" type="Label" parent="MarginContainer/ListaRecursos/FilaAlmaMaldita" unique_id=1296236371]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1

@@ -1,0 +1,190 @@
+[gd_scene format=3 uid="uid://bswal44en2ngr"]
+
+[ext_resource type="Texture2D" uid="uid://biiu775u13t26" path="res://arte/items/VidaIcono.png" id="1_auvh3"]
+[ext_resource type="Script" uid="uid://5kowdwtbofjw" path="res://scripts/HUD/panel_cenizo.gd" id="1_fb7bf"]
+[ext_resource type="Texture2D" uid="uid://bq40q33nye5e5" path="res://arte/items/FondoContenedor.png" id="2_gx2w6"]
+[ext_resource type="Texture2D" uid="uid://b5waod4pcdp8a" path="res://arte/items/FondoRetrato.png" id="2_ouglr"]
+[ext_resource type="Texture2D" uid="uid://chhvaolq2ibbk" path="res://arte/items/EnergiaIcono.png" id="2_t3t2i"]
+[ext_resource type="Texture2D" uid="uid://du3uipuv0ple4" path="res://arte/items/MarcoRetrato.png" id="4_bfafh"]
+[ext_resource type="Texture2D" uid="uid://4uyw6k5xt6w3" path="res://arte/items/CenizoExcavador.png" id="4_gx2w6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y5qm7"]
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ouglr"]
+bg_color = Color(1, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fb7bf"]
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bfafh"]
+bg_color = Color(0.5803922, 0, 0.9411765, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="PanelCenizo" type="Control" unique_id=636812789]
+custom_minimum_size = Vector2(280, 100)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_fb7bf")
+
+[node name="FondoPanel" type="NinePatchRect" parent="." unique_id=1066869407]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FondoContenedor" type="TextureRect" parent="FondoPanel" unique_id=560430065]
+layout_mode = 0
+offset_left = 41.0
+offset_top = -24.0
+offset_right = 297.0
+offset_bottom = 125.0
+texture = ExtResource("2_gx2w6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MargenPrincipal" type="MarginContainer" parent="FondoPanel" unique_id=1991940164]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="FilaPrincipal" type="HBoxContainer" parent="FondoPanel/MargenPrincipal" unique_id=1138053824]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Control" type="Control" parent="FondoPanel/MargenPrincipal/FilaPrincipal" unique_id=975094421]
+custom_minimum_size = Vector2(78, 78)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="FondoRetrato" type="TextureRect" parent="FondoPanel/MargenPrincipal/FilaPrincipal/Control" unique_id=231988001]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_ouglr")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IconoCara" type="TextureRect" parent="FondoPanel/MargenPrincipal/FilaPrincipal/Control" unique_id=1474415825]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -31.0
+offset_right = 31.0
+offset_bottom = 31.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_gx2w6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarcoRetrato" type="TextureRect" parent="FondoPanel/MargenPrincipal/FilaPrincipal/Control" unique_id=1203993302]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_bfafh")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DatosCenizo" type="VBoxContainer" parent="FondoPanel/MargenPrincipal/FilaPrincipal" unique_id=1658729048]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NombreCenizoLabel" type="Label" parent="FondoPanel/MargenPrincipal/FilaPrincipal/DatosCenizo" unique_id=1569319816]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 14
+text = "Cenizo Excavador"
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="FilaVida" type="HBoxContainer" parent="FondoPanel/MargenPrincipal/FilaPrincipal/DatosCenizo" unique_id=1204261368]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="IconoVida" type="TextureRect" parent="FondoPanel/MargenPrincipal/FilaPrincipal/DatosCenizo/FilaVida" unique_id=1648391184]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_auvh3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BarraVida" type="ProgressBar" parent="FondoPanel/MargenPrincipal/FilaPrincipal/DatosCenizo/FilaVida" unique_id=1880095729]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_y5qm7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ouglr")
+value = 100.0
+
+[node name="FilaEnergia" type="HBoxContainer" parent="FondoPanel/MargenPrincipal/FilaPrincipal/DatosCenizo" unique_id=579309626]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="IconoEnergia" type="TextureRect" parent="FondoPanel/MargenPrincipal/FilaPrincipal/DatosCenizo/FilaEnergia" unique_id=1545185296]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("2_t3t2i")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BarraEnergia" type="ProgressBar" parent="FondoPanel/MargenPrincipal/FilaPrincipal/DatosCenizo/FilaEnergia" unique_id=892108870]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_fb7bf")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bfafh")
+value = 100.0

@@ -14,6 +14,11 @@
 [ext_resource type="Texture2D" uid="uid://cx8wtfanx8ukk" path="res://arte/tilesets/grieta_1.png" id="8_xgbcd"]
 [ext_resource type="Script" uid="uid://t07ss2irgnl2" path="res://scripts/cenizos/cursor_trabajo.gd" id="9_cursor"]
 [ext_resource type="Script" uid="uid://hxpeh42686x1" path="res://scripts/pathfinding/sistema_pathfinding_cenizos.gd" id="10_pathfinding"]
+[ext_resource type="PackedScene" uid="uid://bswal44en2ngr" path="res://escenas/HUD/PanelCenizo.tscn" id="15_2xbm7"]
+[ext_resource type="PackedScene" uid="uid://qiw11ipbp1fc" path="res://escenas/objetos/PanelRecursos.tscn" id="15_j4jyx"]
+[ext_resource type="Texture2D" uid="uid://4uyw6k5xt6w3" path="res://arte/items/CenizoExcavador.png" id="16_excavador"]
+[ext_resource type="Texture2D" uid="uid://rl4bkl0ytii" path="res://arte/items/CenizoIngeniero.png" id="16_ingeniero"]
+[ext_resource type="Texture2D" uid="uid://b4lpnoss2aho4" path="res://arte/items/CenizoBuscador.png" id="16_buscador"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m0qm7"]
 texture = ExtResource("1_2ha8w")
@@ -1440,12 +1445,18 @@ position = Vector2(64, 192)
 [node name="Cenizos" type="Node2D" parent="." unique_id=755457200]
 
 [node name="Cenizo1" parent="Cenizos" unique_id=529976580 instance=ExtResource("3_23kly")]
+nombre_visible = "Cenizo Excavador"
+icono_retrato = ExtResource("16_excavador")
 
 [node name="Cenizo2" parent="Cenizos" unique_id=529976581 instance=ExtResource("3_23kly")]
 position = Vector2(64, 0)
+nombre_visible = "Cenizo Ingeniero"
+icono_retrato = ExtResource("16_ingeniero")
 
 [node name="Cenizo3" parent="Cenizos" unique_id=529976582 instance=ExtResource("3_23kly")]
 position = Vector2(128, 0)
+nombre_visible = "Cenizo Buscador"
+icono_retrato = ExtResource("16_buscador")
 
 [node name="GestorCenizos" type="Node" parent="." unique_id=700000010]
 script = ExtResource("8_gestor")
@@ -1453,6 +1464,7 @@ contenedor_cenizos = NodePath("../Cenizos")
 terreno_destructible_path = NodePath("../TerrenoDestructible")
 cursor_trabajo_path = NodePath("../CursorTrabajo")
 sistema_pathfinding_path = NodePath("../SistemaPathfindingCenizos")
+panel_cenizo_path = NodePath("../HUD/InterfazJuego/PanelCenizo")
 
 [node name="CursorTrabajo" type="Node2D" parent="." unique_id=700000011]
 script = ExtResource("9_cursor")
@@ -1469,6 +1481,46 @@ contenedor_cenizos_path = NodePath("../Cenizos")
 
 [node name="FogSprite" type="Sprite2D" parent="NieblaGuerra" unique_id=120214631]
 
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1838906127]
+
+[node name="InterfazJuego" type="Control" parent="HUD" unique_id=500239231]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="PanelCenizo" parent="HUD/InterfazJuego" unique_id=636812789 instance=ExtResource("15_2xbm7")]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="PanelRecursos" parent="HUD/InterfazJuego" unique_id=1886104358 instance=ExtResource("15_j4jyx")]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 16.0
+offset_top = 125.0
+offset_right = 116.0
+offset_bottom = 293.0
+
+[node name="PanelProfundidad" type="PanelContainer" parent="HUD/InterfazJuego" unique_id=527183773]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PanelObjetivos" type="PanelContainer" parent="HUD/InterfazJuego" unique_id=401016086]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ContenedorNotificaciones" type="Control" parent="HUD/InterfazJuego" unique_id=2042279611]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [editable path="Cenizos/Cenizo1"]
 [editable path="Cenizos/Cenizo2"]
 [editable path="Cenizos/Cenizo3"]
+[editable path="HUD/InterfazJuego/PanelRecursos"]
