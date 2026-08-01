@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://iouhx35ym3hw"]
+
+[ext_resource type="Texture2D" uid="uid://dacxcjrxiy1bn" path="res://arte/items/FondoProfundidad.png" id="1_e7tsk"]
+[ext_resource type="Script" uid="uid://dlw8uws5witlr" path="res://scripts/HUD/PanelProfundidad.gd" id="1_ng7rr"]
+
+[node name="PanelProfundidad" type="Control" unique_id=2097507903]
+custom_minimum_size = Vector2(170, 72)
+layout_mode = 3
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -85.0
+offset_top = 10.0
+offset_right = 85.0
+offset_bottom = 82.0
+grow_horizontal = 2
+script = ExtResource("1_ng7rr")
+
+[node name="FondoProfundidad" type="NinePatchRect" parent="." unique_id=747746866]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_e7tsk")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="MargenPrincipal" type="MarginContainer" parent="." unique_id=6518673]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="ContenidoProfundidad" type="VBoxContainer" parent="MargenPrincipal" unique_id=1022952659]
+layout_mode = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="TituloProfundidadLabel" type="Label" parent="MargenPrincipal/ContenidoProfundidad" unique_id=1100396998]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.5803922, 0, 0.9411765, 1)
+theme_override_font_sizes/font_size = 11
+text = "PROFUNDIDAD"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProfundidadLabel" type="Label" parent="MargenPrincipal/ContenidoProfundidad" unique_id=1933196161]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "- 0 m -"
+horizontal_alignment = 1
+vertical_alignment = 1

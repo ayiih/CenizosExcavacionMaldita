@@ -1487,16 +1487,13 @@ contenedor_cenizos_path = NodePath("../Cenizos")
 
 [node name="InterfazJuego" type="Control" parent="HUD" unique_id=500239231]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 0
 
 [node name="PanelCenizo" parent="HUD/InterfazJuego" unique_id=636812789 instance=ExtResource("15_2xbm7")]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 288.0
-offset_bottom = 108.0
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="PanelRecursos" parent="HUD/InterfazJuego" unique_id=1886104358 instance=ExtResource("15_j4jyx")]
@@ -1508,10 +1505,15 @@ offset_right = 116.0
 offset_bottom = 293.0
 
 [node name="PanelProfundidad" parent="HUD/InterfazJuego" unique_id=896808040 instance=ExtResource("20_1uhl2")]
-layout_mode = 1
-anchors_preset = 5
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 170.0
+offset_bottom = 72.0
 grow_horizontal = 1
-punto_referencia_path = NodePath("../../../CenizoSpawn")
 
 [node name="PanelObjetivos" type="PanelContainer" parent="HUD/InterfazJuego" unique_id=401016086]
 visible = false

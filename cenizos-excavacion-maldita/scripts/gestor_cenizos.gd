@@ -21,6 +21,10 @@ signal direccion_armada_cambiada(direccion: Vector2i)
 ## energía del Cenizo activo. Se actualiza al cambiar con TAB.
 @export var panel_cenizo_path: NodePath
 
+## Panel de HUD (PanelProfundidad.tscn) que muestra la profundidad del
+## Cenizo activo. Se actualiza al cambiar con TAB.
+@export var panel_profundidad_path: NodePath
+
 ## Radio (px) para seleccionar un Cenizo haciendo clic sobre él.
 @export var radio_seleccion_click: float = 18.0
 
@@ -32,6 +36,7 @@ var _terreno: TerrenoDestructible
 var _cursor: CursorTrabajo
 var _sistema_pathfinding: SistemaPathfindingCenizos
 var _panel_cenizo: PanelCenizo
+var _panel_profundidad: PanelProfundidad
 
 
 func _ready() -> void:
@@ -62,6 +67,7 @@ func _ready() -> void:
 	_cursor = get_node_or_null(cursor_trabajo_path) as CursorTrabajo
 	_sistema_pathfinding = get_node_or_null(sistema_pathfinding_path) as SistemaPathfindingCenizos
 	_panel_cenizo = get_node_or_null(panel_cenizo_path) as PanelCenizo
+	_panel_profundidad = get_node_or_null(panel_profundidad_path) as PanelProfundidad
 
 	for cenizo in lista_cenizos:
 		cenizo.sistema_pathfinding = _sistema_pathfinding
@@ -107,6 +113,9 @@ func _activar_indice(indice: int) -> void:
 
 	for i in lista_cenizos.size():
 		lista_cenizos[i].set_control_activo(i == indice_activo)
+
+	if _panel_profundidad != null:
+		_panel_profundidad.cenizo = obtener_cenizo_activo()
 
 	cenizo_seleccionado_cambiado.emit(obtener_cenizo_activo())
 
