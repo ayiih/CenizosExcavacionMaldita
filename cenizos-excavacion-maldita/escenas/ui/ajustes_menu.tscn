@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bgmq0c8xbhk1r"]
+
+[ext_resource type="Script" uid="uid://dx0s5ckelgbun" path="res://scripts/ui/AjustesMenu.gd" id="1_xsr4l"]
+
+[node name="AjustesMenu" type="Control" unique_id=911616811]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_xsr4l")
+
+[node name="Fondo" type="ColorRect" parent="." unique_id=224247792]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PanelAjustes" type="PanelContainer" parent="." unique_id=228623311]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Contenido" type="VBoxContainer" parent="PanelAjustes" unique_id=596120796]
+layout_mode = 2
+
+[node name="TituloAjustes" type="Label" parent="PanelAjustes/Contenido" unique_id=1703352121]
+layout_mode = 2
+
+[node name="FullscreenCheck" type="CheckButton" parent="PanelAjustes/Contenido" unique_id=2096851306]
+layout_mode = 2
+
+[node name="VolumenMasterLabel" type="Label" parent="PanelAjustes/Contenido" unique_id=296335980]
+layout_mode = 2
+
+[node name="VolumenMaster" type="HSlider" parent="PanelAjustes/Contenido" unique_id=492956933]
+layout_mode = 2
+
+[node name="VolumenSFXLabel" type="Label" parent="PanelAjustes/Contenido" unique_id=1647254298]
+layout_mode = 2
+
+[node name="VolumenSFX" type="HSlider" parent="PanelAjustes/Contenido" unique_id=1576052710]
+layout_mode = 2
+
+[node name="VolumenMusicaLabel" type="Label" parent="PanelAjustes/Contenido" unique_id=200410554]
+layout_mode = 2
+
+[node name="VolumenMusica" type="HSlider" parent="PanelAjustes/Contenido" unique_id=1336322165]
+layout_mode = 2
+
+[node name="BtnVolver" type="Button" parent="PanelAjustes/Contenido" unique_id=649133287]
+layout_mode = 2

@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://dfuhe6higaavl"]
+
+[ext_resource type="Script" uid="uid://da514cjrdht8" path="res://scripts/ui/pause_menu.gd" id="1_mogo5"]
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=385820048]
+script = ExtResource("1_mogo5")
+
+[node name="FondoPausa" type="Control" parent="." unique_id=1601120187]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="OscurecerPantalla" type="ColorRect" parent="FondoPausa" unique_id=1100822497]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PanelMenu" type="PanelContainer" parent="FondoPausa" unique_id=35475477]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BotonesMenu" type="VBoxContainer" parent="FondoPausa/PanelMenu" unique_id=1599986697]
+layout_mode = 2
+
+[node name="TituloPausa" type="Label" parent="FondoPausa/PanelMenu/BotonesMenu" unique_id=881537271]
+layout_mode = 2
+
+[node name="BtnReanudar" type="Button" parent="FondoPausa/PanelMenu/BotonesMenu" unique_id=26513868]
+layout_mode = 2
+
+[node name="BtnGuardar" type="Button" parent="FondoPausa/PanelMenu/BotonesMenu" unique_id=1754444458]
+layout_mode = 2
+
+[node name="BtnCargar" type="Button" parent="FondoPausa/PanelMenu/BotonesMenu" unique_id=710038254]
+layout_mode = 2
+
+[node name="BtnAjustes" type="Button" parent="FondoPausa/PanelMenu/BotonesMenu" unique_id=2143849372]
+layout_mode = 2
+
+[node name="BtnSalir" type="Button" parent="FondoPausa/PanelMenu/BotonesMenu" unique_id=1338391580]
+layout_mode = 2

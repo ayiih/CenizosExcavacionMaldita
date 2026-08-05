@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://df5rtdcfng4ud"]
+
+[ext_resource type="Script" uid="uid://d1i7ajwsp1j56" path="res://scripts/ui/LoadingScreen.gd" id="1_15h11"]
+
+[node name="LoadingScreen" type="Control" unique_id=1221091628]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_15h11")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=862072347]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="LogoJuego" type="TextureRect" parent="." unique_id=1381283041]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CargandoLabel" type="Label" parent="." unique_id=224845101]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="BarraCarga" type="ProgressBar" parent="." unique_id=1891241087]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 27.0
+
+[node name="Timer" type="Timer" parent="." unique_id=1496625455]
+wait_time = 0.3

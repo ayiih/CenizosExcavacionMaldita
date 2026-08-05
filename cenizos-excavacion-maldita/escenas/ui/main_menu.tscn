@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://jy6je6fe4r8c"]
+
+[ext_resource type="Script" uid="uid://dbuugsortqdd0" path="res://scripts/ui/MainMenu.gd" id="1_rd8ac"]
+
+[node name="MainMenu" type="Control" unique_id=1914063607]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_rd8ac")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=860875091]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Oscurecedor" type="ColorRect" parent="." unique_id=352166938]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LogoJuego" type="TextureRect" parent="." unique_id=1409633124]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TituloJuego" type="Label" parent="." unique_id=900777257]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="BotonesMenu" type="VBoxContainer" parent="." unique_id=1747201290]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BtnNuevaPartida" type="Button" parent="BotonesMenu" unique_id=1768551735]
+layout_mode = 2
+
+[node name="BtnGuardarPartida" type="Button" parent="BotonesMenu" unique_id=297366449]
+layout_mode = 2
+
+[node name="BtnCargarPartida" type="Button" parent="BotonesMenu" unique_id=597960941]
+layout_mode = 2
+
+[node name="BtnAjustes" type="Button" parent="BotonesMenu" unique_id=537195288]
+layout_mode = 2
+
+[node name="BtnSalir" type="Button" parent="BotonesMenu" unique_id=1971818642]
+layout_mode = 2
+
+[node name="VersionLabel" type="Label" parent="." unique_id=580685005]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
